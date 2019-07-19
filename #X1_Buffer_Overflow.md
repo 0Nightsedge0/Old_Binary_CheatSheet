@@ -103,6 +103,17 @@ badchars = (
 #### bash
 `for i in {1..255}; do printf "\\\x%02x" $i; done; echo -e "\r"`
 
+#### mona find bad chars
+```
+mkdir C:\temp\
+
+!mona config -set workingfolder c:\temp\%p                              # set working directory to save logs/files
+!mona bytearray                                                         # create bytearry files
+!mona compare -f C:\temp\program\bytearray.bin -a <stack_start_address> # comparation
+!mona bytearray –cpb “\x00”                                             # escape bad char
+```
+
+
 ## 5. Find Return Address
 ### 5.1 List modules of the OS
 `!mona modules`
